@@ -5,3 +5,6 @@
 /Nets.Tech.Client/.vs
 /Nets.Tech.Client/bin/Debug
 /Nets.Tech.Client/obj
+/Nets.Tech.Server/.vs
+/Nets.Tech.Server/bin/Debug/net8.0
+/Nets.Tech.Server/obj
