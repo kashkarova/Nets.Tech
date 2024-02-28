@@ -1,0 +1,36 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+@using System.Net.WebSockets;
+@using System.Text;
+@using Nets.Tech.Server.Services
+
+@inject IBroadcastService _broadcastService;
+
+<PageTitle>Home</PageTitle>
+
+<h4>Message</h4>
+<input type="text" @oninput="e=>OnMessageChangedAsync(e)" value="@Message" />
+
+@code {
+    public string Message = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        BroadcastService.OnNewMessageReceived += OnNewMessageReceivedAsync;
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task OnMessageChangedAsync(ChangeEventArgs e)
+    {
+        Message = e.Value.ToString();
+        await _broadcastService.BroadcastAsync(Message);
+    }
+
+    public async void OnNewMessageReceivedAsync(object? sender, string message)
+    {
+        Message = message;
+        await InvokeAsync(() => StateHasChanged());
+    }
+}
